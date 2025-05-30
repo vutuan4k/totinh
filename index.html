@@ -10,6 +10,7 @@
       overflow: hidden;
       height: 100%;
       background: black;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .scene {
@@ -69,15 +70,23 @@
       white-space: nowrap;
       font-size: 20px;
       font-weight: bold;
-      text-shadow: 0 0 8px rgba(255,255,255,0.5);
+      text-shadow: 0 0 8px currentColor;
       animation: starFall linear forwards;
       z-index: 3;
     }
 
     @keyframes starFall {
-      0% { top: -40px; opacity: 0; }
-      10% { opacity: 1; }
-      100% { top: 110vh; opacity: 0; }
+      0% {
+        top: -40px;
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        top: 110vh;
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -91,31 +100,43 @@
 
   <script>
     const messages = [
-      "𝓐𝓷𝓱 𝔂ê𝓾 𝓮𝓶", "💖 𝔐ã𝔦 𝔟ê𝔫 𝔫𝔥𝔞𝔲", "😘 𝒩𝒽ớ 𝑒𝓂 𝓃𝒽𝒾ề𝓊", "💌 ᴛʜươɴɢ ᴇᴍ ʟắᴍ", "🌙 yêυ тừ cáι nнìn đầυ тιên",
-      "✨ ᴄʜỉ ᴄầɴ ᴄó ᴇᴍ", "🪐 𝕿ì𝖓𝖍 𝖞ê𝖚 𝖛ĩ𝖓𝖍 𝖈ử𝖚", "🌠 𝒜𝓃𝒽 𝓁𝓊ô𝓃 ở đâ𝓎", "❤️ 你是我最爱的人", "💫 𝔜ê𝔲 𝔢𝔪 𝔪ã𝔦 𝔪ã𝔦",
-      "💘 𝒜𝓃𝒽 𝓃𝒽ớ 𝑒𝓂 𝓉ừ𝓃𝑔 𝓅𝒽ú𝓉", "🌸 𝓔𝓶 𝓵à 𝓱ạ𝓷𝓱 𝓹𝓱ú𝓬 𝓬ủ𝓪 𝓪𝓷𝓱", "💞 คภђ ςђỉ ςầภ є๓ tђôเ", "🌺 𝔈𝔪 𝔩à 𝔠ả 𝔱𝔥ế 𝔤𝔦ớ𝔦 𝔠ủ𝔞 𝔞𝔫𝔥",
-      "🫶 𝒦𝒽ô𝓃𝑔 𝒸ó 𝑒𝓂 𝒶𝓃𝒽 𝓀𝒽ô𝓃𝑔 𝓈ố𝓃𝑔 𝓃ổ𝒾", "🧸 𝙈ỗ𝙞 𝙣𝙜à𝙮 𝙘ó 𝙚𝙢 𝙡à 𝙢ộ𝙩 𝙥𝙝é𝙥 𝙢à𝙪", "💫 ᴅù xᴀ ᴄáᴄʜ ᴠẫɴ ʟᴜôɴ ʜướɴɢ ᴠề ᴇᴍ",
-      "🌟 ʙêɴ ᴇᴍ ᴀɴʜ ᴛìᴍ ᴛʜấʏ ᴄʜíɴʜ ᴍìɴʜ", "❤️ уêυ єм đếи тậи ¢ùиg тяáι тιм", "🌙 𝔈𝔪 𝔩à 𝔤𝔦ấ𝔠 𝔪ơ đẹ𝔭 𝔫𝔥ấ𝔱 𝔠ủ𝔞 𝔞𝔫𝔥",
-      "💖 ᴛìɴʜ ʏêᴜ ᴛᴀ ɴʜư ᴠì sᴀᴏ ᴛʀờɪ", "💌 𝔐ỗ𝔦 𝔫𝔤à𝔶 𝔟ê𝔫 𝔢𝔪 𝔩à 𝔪ộ𝔱 𝔫𝔦ề𝔪 𝔳𝔲𝔦", "✨ ᴍãɪ ᴍãɪ ᴋʜôɴɢ ʀờɪ xᴀ",
-      "🌠 αин ѕẽ вảσ νệ єм ѕυốт đờι", "❤️ 𝔈𝔪 𝔩à á𝔫𝔥 𝔰á𝔫𝔤 𝔱𝔯𝔬𝔫𝔤 𝔱𝔦𝔪 𝔞𝔫𝔥", "💘 𝕸ỗ𝖎 𝖌𝖎â𝖞 𝖕𝖍ú𝖙 𝖈ó 𝖊𝖒 đề𝖚 𝖖𝖚ý 𝖌𝖎á",
-      "🌸 𝕋ì𝕟𝕙 𝕪ê𝕦 𝕥𝕒 𝕟𝕘ọ𝕥 𝕟𝕘à𝕠 𝕟𝕙ư 𝕞ậ𝕥", "💞 ᴀɴʜ sốɴɢ ᴠì ɴụ ᴄườɪ ᴄủᴀ ᴇᴍ", "🧸 𝔼𝕞 𝕝à 𝕥ấ𝕥 𝕔ả 𝕟𝕙ữ𝕟𝕘 𝕘ì 𝕒𝕟𝕙 𝕔ầ𝕟",
-      "💫 𝕿𝖗á𝖎 𝖙𝖎𝖒 𝖆𝖓𝖍 𝖈𝖍ỉ đậ𝖕 𝖛ì 𝖊𝖒", "🌙 𝔻ù 𝕓𝕒𝕠 𝕘𝕚ô𝕟𝕘 𝕓ã𝕠, 𝕧ẫ𝕟 𝕓ê𝕟 𝕖𝕞", "🪐 𝕿ì𝖓𝖍 𝖙𝖆 𝖐𝖍ô𝖓𝖌 𝖇𝖆𝖔 𝖌𝖎ờ 𝖕𝖍𝖆𝖎 𝖓𝖍ạ𝖙",
-      "🌟 𝐸𝓂 𝓁à 𝓃𝑔ô𝒾 𝓈𝒶𝑜 𝓈á𝓃𝑔 𝓉𝓇𝑜𝓃𝑔 đê𝓂", "💌 𝔜ê𝔲 𝔢𝔪 𝔥ơ𝔫 𝔠ả 𝔠𝔥í𝔫𝔥 𝔪ì𝔫𝔥", "🌺 𝕰𝖒 𝖑à đị𝖓𝖍 𝖒ệ𝖓𝖍 𝖈𝖚ộ𝖈 đờ𝖎 𝖆𝖓𝖍",
-      "❤️ 𝕋𝕣ọ𝕟 đờ𝕚 𝕟à𝕪 𝕔𝕙ỉ 𝕔ó 𝕖𝕞 𝕥𝕙ô𝕚", "💘 Nhớ em đến từng hơi thở", "🧸 𝕸ã𝖎 𝖒ã𝖎 𝖐𝖍ô𝖓𝖌 𝖗ờ𝖎 𝖝𝖆 𝖊𝖒",
-      "✨ 𝔈𝔪 𝔩à 𝔥ạ𝔫𝔥 𝔭𝔥ú𝔠 𝔱𝔲𝔶ệ𝔱 𝔳ờ𝔦 𝔫𝔥ấ𝔱", "🌠 чêu єm hơn mọí đíều trên thế gíαn", "💞 𝕮𝖍ỉ 𝖈ầ𝖓 𝖊𝖒 ở đâ𝖞, 𝖆𝖓𝖍 đủ 𝖗ồ𝖎",
-      "💫 тìnн yêυ là мón qυà тừ тráι тιм", "🌙 ᴍỗɪ đêᴍ ᴀɴʜ ᴍơ ᴠề ᴇᴍ", "🪐 Cảm ơn em đã đến bên anh",
-      "🌟 𝔄𝔫𝔥 𝔰ẽ 𝔶ê𝔲 𝔢𝔪 đế𝔫 𝔠𝔲ố𝔦 𝔠𝔲ộ𝔠 đờ𝔦", "💌 𝕿ì𝖓𝖍 𝖞ê𝖚 𝖈𝖍ú𝖓𝖌 𝖙𝖆 𝖓𝖍ư 𝖇𝖎ể𝖓 𝖗ộ𝖓𝖌", "❤️ єм ℓà đιềυ тυуệт ∂ιệυ инấт đờι αин",
-      "❤️ ᴢʜᴇɴɢ ʏᴜ ᴊᴜɴ ᴡᴜ ❤️", "🌸 没有你，我无法想象生活", "💞 你是我一生的唯一", "🌺 爱你直到永远", "🧸 想你每分每秒",
-      "🌙 没有你的世界是黑暗的", "🪐 你是我的宇宙", "🌠 你的笑容是我最大的动力", "❤️ 永远守护你", "💌 每次看到你，我心跳加速",
-      "✨ 感谢命运让我遇见你", "🌟 爱你多一点，每天", "💖 你是我心中的星星", "💞 一辈子只想牵着你的手",
-      "🧸 想念你的声音和拥抱", "🌺 你是我最美的梦", "🌙 无论在哪里，我心里有你", "💘 爱你是我最幸福的事"
+      "Anh yêu em", "💖 Mãi bên nhau", "😘 Nhớ em nhiều",
+      "💌 Thương em lắm", "🌙 Yêu từ cái nhìn đầu tiên",
+      "✨ Chỉ cần có em", "🪐 Tình yêu vĩnh cửu",
+      "🌠 Anh luôn ở đây", "❤️ 你是我最爱的人", "💫 Yêu em mãi mãi",
+      "💘 Anh nhớ em từng phút", "🌸 Em là hạnh phúc của anh",
+      "💞 Anh chỉ cần em thôi", "🌺 Em là cả thế giới của anh",
+      "🫶 Không có em anh không sống nổi", "🧸 Mỗi ngày có em là một phép màu",
+      "💫 Dù xa cách vẫn luôn hướng về em", "🌟 Bên em anh tìm thấy chính mình",
+      "❤️ Yêu em đến tận cùng trái tim", "🌙 Em là giấc mơ đẹp nhất của anh",
+      "💖 Tình yêu ta như vì sao trời", "💌 Mỗi ngày bên em là một niềm vui",
+      "✨ Mãi mãi không rời xa", "🌠 Anh sẽ bảo vệ em suốt đời",
+      "❤️ Em là ánh sáng trong tim anh", "💘 Mỗi giây phút có em đều quý giá",
+      "🌸 Tình yêu ta ngọt ngào như mật", "💞 Anh sống vì nụ cười của em",
+      "🧸 Em là tất cả những gì anh cần", "💫 Trái tim anh chỉ đập vì em",
+      "🌙 Dù bao giông bão, vẫn bên em", "🪐 Tình ta không bao giờ phai nhạt",
+      "🌟 Em là ngôi sao sáng trong đêm", "💌 Yêu em hơn cả chính mình",
+      "💖 Mỗi ngày bên em là một phép màu", "🌺 Em là định mệnh cuộc đời anh",
+      "❤️ Trọn đời này chỉ có em thôi", "💘 Nhớ em đến từng hơi thở",
+      "🌸 Tình yêu anh dành cho em vô tận", "🧸 Mãi mãi không rời xa em",
+      "✨ Em là hạnh phúc tuyệt vời nhất", "🌠 Yêu em hơn mọi điều trên thế gian",
+      "💞 Chỉ cần em ở đây, anh đủ rồi", "💫 Tình yêu là món quà từ trái tim",
+      "🌙 Mỗi đêm anh mơ về em", "🪐 Cảm ơn em đã đến bên anh",
+      "🌟 Anh sẽ yêu em đến cuối cuộc đời", "💌 Tình yêu chúng ta như biển rộng",
+      "❤️ Em là điều tuyệt diệu nhất đời anh,💘 Tuấn Vũ",
+      "❤️ ZHENG YU JUN WU ❤️", "🌸 没有你，我无法想象生活", "💞 你是我一生的唯一",
+      "🌺 爱你直到永远", "🧸 想你每分每秒", "🌙 没有你的世界是黑暗的",
+      "🪐 你是我的宇宙", "🌠 你的笑容是我最大的动力",
+      "❤️ 永远守护你", "💌 每次看到你，我心跳加速",
+      "✨ 感谢命运让我遇见你", "🌟 爱你多一点，每天", "💖 你是我心中的星星",
+      "💞 一辈子只想牵着你的手", "🧸 想念你的声音和拥抱", "🌺 你是我最美的梦",
+      "🌙 无论在哪里，我心里有你", "💘 爱你是我最幸福的事"
     ];
-
-    const colors = ["#ff69b4", "#ff4500", "#00ffff", "#7fff00", "#ffff00", "#1e90ff", "#ff1493", "#ffa500", "#00ff7f", "#ff00ff"];
 
     const rotatingContainer = document.getElementById("rotatingContainer");
     const dotsContainer = document.getElementById("dotsContainer");
 
+    // Tạo chấm bi phủ toàn cảnh
     for (let i = 0; i < 800; i++) {
       const dot = document.createElement("div");
       dot.className = "dot";
@@ -126,33 +147,34 @@
       dotsContainer.appendChild(dot);
     }
 
-    let lastMessage = "";
-    function getRandomMessage() {
-      let newMessage;
-      do {
-        newMessage = messages[Math.floor(Math.random() * messages.length)];
-      } while (newMessage === lastMessage);
-      lastMessage = newMessage;
-      return newMessage;
+    // Mảng màu sắc đa dạng cho chữ có thêm xanh dương và xanh lá
+    function getRandomColor() {
+      const colors = [
+        'hotpink', 'deeppink', 'magenta', 'violet', 'lightpink', 'fuchsia',
+        'pink', 'mistyrose', 'red', 'crimson', 'orange', 'gold',
+        'salmon', 'coral', 'lightcoral', 'tomato', 'orangered', 'indianred',
+        'lavenderblush', 'palevioletred', 'mediumvioletred',
+        'dodgerblue', 'royalblue', 'deepskyblue', 'mediumseagreen', 'forestgreen', 'limegreen'
+      ];
+      return colors[Math.floor(Math.random() * colors.length)];
     }
 
+    // Hiệu ứng chữ rơi nhiều màu sắc + trái tim
     function createStarText() {
       for (let i = 0; i < 3; i++) {
         const text = document.createElement("div");
         text.className = "star-text";
-        const message = getRandomMessage();
+        const message = messages[Math.floor(Math.random() * messages.length)];
         text.textContent = `❤️ ${message}`;
+        text.style.color = getRandomColor();
         text.style.top = "-30px";
         text.style.left = `${10 + Math.random() * 80}%`;
         text.style.animationDuration = `${4 + Math.random() * 2}s`;
-        text.style.color = colors[Math.floor(Math.random() * colors.length)];
         rotatingContainer.appendChild(text);
         setTimeout(() => text.remove(), 10000);
       }
     }
-
     setInterval(createStarText, 150);
-    document.body.addEventListener('click', createStarText);
   </script>
 
 </body>

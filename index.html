@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chấm bi + Hiệu ứng chữ rơi màu hồng + Trái tim</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      background: black;
+    }
+
+    .scene {
+      width: 100vw;
+      height: 100vh;
+      perspective: 1200px;
+      overflow: visible;
+      position: relative;
+    }
+
+    .rotating-container {
+      width: 200vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: -50vw;
+      transform-style: preserve-3d;
+      animation: swingRotate 40s ease-in-out infinite alternate;
+      transform-origin: center center;
+      overflow: visible;
+    }
+
+    @keyframes swingRotate {
+      0% { transform: rotateY(-20deg); }
+      100% { transform: rotateY(20deg); }
+    }
+
+    .dots-container {
+      position: absolute;
+      width: 200vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .dot {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: white;
+      opacity: 0.6;
+      animation: twinkle 2s infinite ease-in-out;
+      animation-delay: var(--delay);
+      filter: drop-shadow(0 0 3px white);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .star-text {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 20px;
+      color: hotpink;
+      text-shadow: 0 0 8px pink;
+      animation: starFall linear forwards;
+      z-index: 3;
+      font-weight: bold;
+    }
+
+    @keyframes starFall {
+      0% {
+        top: -40px;
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        top: 110vh;
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scene">
+    <div class="rotating-container" id="rotatingContainer">
+      <div class="dots-container" id="dotsContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    const messages = [
+   "Anh yêu em", "💖 Mãi bên nhau", "😘 Nhớ em nhiều",
+      "💌 Thương em lắm", "🌙 Yêu từ cái nhìn đầu tiên",
+      "✨ Chỉ cần có em", "🪐 Tình yêu vĩnh cửu",
+      "🌠 Anh luôn ở đây", "❤️ 你是我最爱的人", "💫 Yêu em mãi mãi",
+      "💘 Anh nhớ em từng phút", "🌸 Em là hạnh phúc của anh",
+      "💞 Anh chỉ cần em thôi", "🌺 Em là cả thế giới của anh",
+      "🫶 Không có em anh không sống nổi", "🧸 Mỗi ngày có em là một phép màu",
+      "💫 Dù xa cách vẫn luôn hướng về em", "🌟 Bên em anh tìm thấy chính mình",
+      "❤️ Yêu em đến tận cùng trái tim", "🌙 Em là giấc mơ đẹp nhất của anh",
+      "💖 Tình yêu ta như vì sao trời", "💌 Mỗi ngày bên em là một niềm vui",
+      "✨ Mãi mãi không rời xa", "🌠 Anh sẽ bảo vệ em suốt đời",
+      "❤️ Em là ánh sáng trong tim anh", "💘 Mỗi giây phút có em đều quý giá",
+      "🌸 Tình yêu ta ngọt ngào như mật", "💞 Anh sống vì nụ cười của em",
+      "🧸 Em là tất cả những gì anh cần", "💫 Trái tim anh chỉ đập vì em",
+      "🌙 Dù bao giông bão, vẫn bên em", "🪐 Tình ta không bao giờ phai nhạt",
+      "🌟 Em là ngôi sao sáng trong đêm", "💌 Yêu em hơn cả chính mình",
+      "💖 Mỗi ngày bên em là một phép màu", "🌺 Em là định mệnh cuộc đời anh",
+      "❤️ Trọn đời này chỉ có em thôi", "💘 Nhớ em đến từng hơi thở",
+      "🌸 Tình yêu anh dành cho em vô tận", "🧸 Mãi mãi không rời xa em",
+      "✨ Em là hạnh phúc tuyệt vời nhất", "🌠 Yêu em hơn mọi điều trên thế gian",
+      "💞 Chỉ cần em ở đây, anh đủ rồi", "💫 Tình yêu là món quà từ trái tim",
+      "🌙 Mỗi đêm anh mơ về em", "🪐 Cảm ơn em đã đến bên anh",
+      "🌟 Anh sẽ yêu em đến cuối cuộc đời", "💌 Tình yêu chúng ta như biển rộng",
+      "❤️ Em là điều tuyệt diệu nhất đời anh"
+    ];
+
+    const rotatingContainer = document.getElementById("rotatingContainer");
+    const dotsContainer = document.getElementById("dotsContainer");
+
+    // Tạo chấm bi phủ toàn cảnh
+    for (let i = 0; i < 800; i++) {
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      dot.style.left = `${Math.random() * window.innerWidth * 2}px`;
+      dot.style.top = `${Math.random() * window.innerHeight}px`;
+      dot.style.setProperty('--size', `${1 + Math.random() * 2}px`);
+      dot.style.setProperty('--delay', `${Math.random() * 2}s`);
+      dotsContainer.appendChild(dot);
+    }
+
+    // Hiệu ứng chữ rơi màu hồng + trái tim
+    function createStarText() {
+      for (let i = 0; i < 3; i++) {
+        const text = document.createElement("div");
+        text.className = "star-text";
+        const message = messages[Math.floor(Math.random() * messages.length)];
+        text.textContent = `❤️ ${message}`;
+        text.style.top = "-30px";
+        text.style.left = `${10 + Math.random() * 80}%`;
+        text.style.animationDuration = `${4 + Math.random() * 2}s`;
+        rotatingContainer.appendChild(text);
+        setTimeout(() => text.remove(), 10000);
+      }
+    }
+    setInterval(createStarText, 150);
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
